@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="si"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<title>MEMORA</title><link rel="manifest" href="manifest.json">
+<style>
+*{box-sizing:border-box}html{color-scheme:light !important}
+body{margin:0;background:linear-gradient(180deg,#FFF6D8 0%,#FFF8E8 45%,#FFE9B8 100%) !important;color:#1e1e1e;font-family:"Noto Sans Sinhala",system-ui,sans-serif}
+.wrap{max-width:480px;margin:0 auto;padding:10px 16px 130px;position:relative;background:linear-gradient(180deg,#FFF6D8 0%,#FFFDF2 55%,#FFF2C8 100%);min-height:100vh;border-left:1px solid #FFE9B8;border-right:1px solid #FFE9B8}
+.date{font-weight:800;font-size:15px;line-height:1.3;position:relative;padding-right:60px}
+.cap{position:absolute;top:8px;right:16px;font-size:48px;line-height:1;pointer-events:none;z-index:1}
+h1{font-size:56px;line-height:.95;color:#1A2A6B;margin:8px 0 0;text-align:center;letter-spacing:-1px}
+.sub{font-weight:800;font-size:18px;text-align:center;margin:2px 0 0;color:#1A2A6B}
+.quote{margin:14px 6px 0;background:#FFF3D6;border:1px solid #FFE9A8;border-radius:18px;padding:14px 12px;text-align:center;font-weight:700;font-size:17px;line-height:1.4;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.trial{text-align:center;margin:8px 0 0}.trial span{background:#fff;border:1px solid #DA945B;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;display:inline-block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.big{height:112px;border:0;border-radius:22px;font-weight:800;font-size:18px;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.12);line-height:1.25;padding:10px}
+.big .ic{font-size:38px;display:block;margin-bottom:6px}
+.b1{background:linear-gradient(135deg,#3AA8FF,#1E7BFF);color:#fff}.b2{background:linear-gradient(135deg,#B5E35A,#8ED360);color:#1e3a05}.b3{background:linear-gradient(135deg,#E8B8F5,#D9A0EF);color:#3b0f56}.b4{background:linear-gradient(135deg,#FFD25E,#FFC93D);color:#4a3200}
+.card{background:#fff;border:1px solid #EFE6CF;border-radius:20px;padding:12px;margin-top:14px}
+.strip{display:flex;justify-content:space-between;text-align:center}
+.dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;margin:0 auto;font-weight:800;font-size:12px;background:#3B82F6;color:#fff}
+.dot.done{background:#22c55e;color:#fff}
+.small{font-size:10px;font-weight:700;color:#7a6a55;margin-top:4px;white-space:nowrap}
+.illust{display:flex;pointer-events:none;justify-content:space-between;align-items:flex-end;margin:18px 4px 0;background:linear-gradient(180deg,transparent 55%,#FFB84D 55%,#FF8A3D);border-radius:20px;padding:10px 12px 8px}
+.illust .books{font-size:52px;line-height:1}.illust .pencils{font-size:44px;line-height:1}
+h2{font-size:22px;margin:16px 0 6px}
+.row{display:flex;align-items:center;gap:8px;padding:10px 8px;border-bottom:1px solid #f0d9a8;cursor:pointer}
+.row:last-child{border-bottom:0}.dotc{width:10px;height:10px;border-radius:50%;flex-shrink:0}.title{flex:1;font-weight:700;font-size:14px}
+.badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px}
+.detail{display:none;padding:8px 8px 10px 26px;font-size:13px;background:#FFF8E8;border-radius:12px;margin:0 6px 8px}.detail.open{display:block}
+.btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+button, .big, .mini, input, select, textarea{touch-action:manipulation;-webkit-tap-highlight-color:transparent;pointer-events:auto;position:relative;z-index:2}
+button.mini{border:1px solid #EDBF5E;background:#FFF2CC;border-radius:999px;padding:6px 10px;font-weight:700;font-size:12px;cursor:pointer}
+button.ok{background:#22c55e;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer}
+button.no{background:#ef4444;color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer}
+input,select,textarea{width:100%;border:2px solid #EFE6CF;border-radius:12px;padding:11px;font-size:14px;background:#fff;margin:4px 0 10px;font-family:inherit}
+label{font-weight:800;font-size:13px}.save{width:100%;background:#1E7BFF;color:#fff;border:0;border-radius:16px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px}.cal div{padding:9px 0;border-radius:10px;background:#fff;border:1px solid #EFE6CF;cursor:pointer}.cal div.today{background:#1E7BFF;color:#fff}.cal div.has{border:2px solid #EDBF5E}
+.bottom{position:fixed;bottom:0;left:0;right:0;z-index:30;pointer-events:none;height:auto;max-height:86px}.bottom>div{max-width:480px;margin:0 auto;padding:0 10px 8px;pointer-events:none}.bottomnav{background:linear-gradient(90deg,#FFB84D,#FF8A3D);pointer-events:auto;border:0;border-radius:20px;display:flex;box-shadow:0 6px 20px rgba(0,0,0,.18);overflow:hidden}
+.bottomnav button{flex:1;border:0;background:transparent;padding:12px 2px;font-size:26px;line-height:1;cursor:pointer}.bottomnav button.on{background:rgba(255,255,255,.28)}
+.hidden{display:none}.muted{font-size:12px;color:#7a6a55}.red{color:#c00;font-weight:800}.green{color:#15803d;font-weight:800}
+img.thumb{width:80px;height:80px;object-fit:cover;border-radius:10px;margin:4px}
+.del{background:#fee2e2;border:0;border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer}.edit{background:#dbeafe;border:0;border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer}
+</style></head>
+<body><div class="wrap">
+<section id="p-home">
+<div class="date"><span id="dateLine"></span><span class="cap">🎓</span></div>
+<h1>MEMORA</h1><div class="sub">ඔබේ මතකයේ සඟයා</div>
+<div class="quote">“දිනෙන් දින ඔබේ මතකය<br>තවත් ශක්තිමත් වේ..</div>
+<div class="trial"><span id="trialPill"></span></div>
+<div class="grid">
+<button class="big b1" data-go="lessons" onclick="go('lessons')"><span class="ic">📖</span>මගේ<br>පාඩම්</button>
+<button class="big b2" data-go="today" onclick="go('today')"><span class="ic">🔄</span>අද සමාලෝචනය</button>
+<button class="big b3" data-go="add" onclick="go('add')"><span class="ic">➕</span>අලුත් පාඩමක්</button>
+<button class="big b4" data-go="papers" onclick="go('papers')"><span class="ic">📝</span>ප්‍රශ්න පත්‍ර</button>
+</div>
+<div class="card"><div class="strip" id="strip"></div><div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-top:8px"><span id="cToday"></span><span id="cTotal"></span><span id="cMaster"></span></div></div>
+<div class="illust"><div class="books">📚</div><div class="pencils">✏️</div></div>
+</section>
+
+<!-- TODAY -->
+<section id="p-today" class="hidden">
+<h2>අද සමාලෝචනය</h2>
+<div class="card"><div style="display:flex;gap:8px"><button class="mini" id="tabToday" onclick="setTodayTab('today')">අද</button><button class="mini" id="tabCal" onclick="setTodayTab('cal')">කැලැන්ඩරය</button><button class="mini" onclick="shot()">Screenshot</button></div>
+<div id="todayList" style="margin-top:8px"></div>
+<div id="todayCal" class="hidden" style="margin-top:10px"></div>
+</div></section>
+
+<!-- LESSONS / PAPERS -->
+<section id="p-lessons" class="hidden"><h2>මගේ පාඩම්</h2><div id="lessonsList"></div></section>
+<section id="p-papers" class="hidden"><h2>ප්‍රශ්න පත්‍ර</h2><div id="papersList"></div></section>
+
+<!-- ADD -->
+<section id="p-add" class="hidden"><h2>අලුත් පාඩමක්</h2>
+<div class="card">
+<div style="display:flex;gap:8px"><button class="mini" id="kLesson" onclick="setKind('lesson')">පාඩම</button><button class="mini" id="kPaper" onclick="setKind('paper')">ප්‍රශ්න පත්‍රය</button></div>
+<label>විෂය</label><input id="fSub" placeholder="විෂය">
+<label>මාතෘකාව</label><input id="fTopic" placeholder="මාතෘකාව">
+<div id="subWrap"><label>අනුමාතෘකාව</label><input id="fSub2" placeholder="අනුමාතෘකාව"></div>
+<div id="paperWrap" class="hidden"><label>වර්ෂය</label><input id="fYear" placeholder="වර්ෂය"><label>වර්ගය</label><select id="fType"><option>Past Paper</option><option>Model Paper</option><option>Other</option></select><input id="fOther" placeholder="වර්ගය ලියන්න" class="hidden"></div>
+<label>Note</label><textarea id="fNote" rows="3" placeholder="සටහන"></textarea>
+<label>Pic (3ක් දක්වා)</label><input type="file" id="fPics" accept="image/*" multiple capture="environment"><div id="picPrev"></div>
+<div class="muted" id="schedPrev"></div><br>
+<button class="save" onclick="saveItem()">සුරකින්න</button><p id="saveMsg" class="green"></p>
+</div></section>
+
+<!-- SETTINGS -->
+<section id="p-settings" class="hidden"><h2>සැකසුම්</h2>
+<div class="card"><b>පාඩම් කළමනාකරණය</b><input id="search" placeholder="සොයන්න…" oninput="renderAll()"><div id="manage"></div></div>
+<div class="card"><b>Backup / Restore</b><br><button class="save" style="margin-top:8px" onclick="doBackup()">Backup බාගන්න</button><textarea id="restoreTxt" rows="3" placeholder="Backup JSON එක මෙහි අලවන්න…"></textarea><button class="save" style="background:#EDBF5E;color:#000" onclick="doRestore()">Restore කරන්න</button><p class="muted">Backup ගොනුව MEMORA-Backup.json ලෙස බාගත වේ.</p></div>
+<div class="card"><b>Activation Key</b><input id="keyIn" placeholder=""><button class="save" onclick="activate()">සක්‍රිය කරන්න</button><p id="keyMsg"></p></div>
+<div class="card"><b>About App</b><p style="font-size:13px;line-height:1.7">MEMORA යනු ඕනෑම වයසක ඉගෙනුම්කරුවෙකු විසින් ඉගෙනගත් කරුණු දිගුකාලීනව මතකයේ තබාගැනීමට උපකාර වන ස්වයංක්‍රීය මතක කළමනාකරණ ඇප් එකක්. මෙහි විශේෂත්වය වන්නේ ඇප් එකට කිසිදු විෂය කරුණක් පෙර ඇතුළත් කර නොතිබීමයි. පරිශීලකයා තමන් ඉගෙනගන්නා ඕනෑම විෂයක්, මාතෘකාවක්, අනුමාතෘකාවක් සහ සටහනක් ඇතුළත් කල පසුව ඇප් එක Active Recall + Spaced Repetition ක්‍රමවේදය අනුව ඉදිරි පුනරාවර්තන දිනයන් ස්වයංක්‍රීයව සැලසුම් කරනවා. මෙය පාසල් දරුවන්ට පමණක් නොව විශ්වවිද්‍යාල සිසුන්ට, වෘත්තිකයන්ට, වැඩිහිටියන්ට සහ ජීවිත කාලය පුරා අලුත් දේවල් ඉගෙනගන්නා සියලු දෙනාටම භාවිත කළ හැකි පද්ධතියක් වනු ඇත.</p></div>
+</section>
+</div>
+<div class="bottom"><div><div class="bottomnav" id="botnav"></div></div></div>
+<script>
+let items=JSON.parse(localStorage.getItem("memora_items")||"[]");
+let meta=JSON.parse(localStorage.getItem("memora_meta")||"null");
+if(!meta){meta={install:todayStr(),activation:null};localStorage.setItem("memora_meta",JSON.stringify(meta));}
+let page="home",kind="lesson",todayTab="today",selDate=todayStr(),calMonth=new Date();
+function todayStr(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function addDays(s,n){let d=new Date(s+"T00:00:00");d.setDate(d.getDate()+n);return todayStr(d);}
+function save(){localStorage.setItem("memora_items",JSON.stringify(items));localStorage.setItem("memora_meta",JSON.stringify(meta));}
+const STAGES=[1,3,7,14,30];
+function sched(base){return STAGES.map(n=>({day:n,date:addDays(base,n)}));}
+function colors(){let subs=[...new Set(items.map(x=>x.subject))];let pal=["#2EA0FF","#8ED360","#CFA0EF","#EDBF5E","#FF8A3D","#4ECDC4","#FF6B8A","#7A8CFF"];let m={};subs.forEach((s,i)=>m[s]=pal[i%pal.length]);return m;}
+function go(p){page=p;document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));document.getElementById("p-"+(p==="home"?"home":p)).classList.remove("hidden");renderAll();}
+function setKind(k){kind=k;document.getElementById("subWrap").classList.toggle("hidden",k==="paper");document.getElementById("paperWrap").classList.toggle("hidden",k!=="paper");renderAll();}
+function setTodayTab(t){todayTab=t;renderAll();}
+function shot(){alert("උපාංගයේ Screenshot බොත්තම භාවිතා කරන්න.");}
+function toggle(id){let e=document.getElementById("d-"+id);e.classList.toggle("open");}
+function groupHTML(list,showSched){
+let col=colors();let by={};list.forEach(x=>{(by[x.subject]=by[x.subject]||[]).push(x);});
+let h="";
+for(let sub in by){
+let arr=by[sub];let done=arr.filter(x=>x.mastered).length;
+h+=`<div class="card"><b style="color:${col[sub]}">● ${sub}</b> <span class="muted">• ✓ ${done}</span></div>`;
+arr.forEach(x=>{
+let isD=x.difficult;let label=x.mastered?"Mastered":isD?"අමාරු • සෑම දිනකම":`Day ${STAGES[x.stage]||30} • ${x.next}`;
+h+=`<div class="row" onclick="toggle('${x.id}')"><span class="dotc" style="background:${col[sub]}"></span><span class="title">${x.topic} ${x.subtopic? "• "+x.subtopic:""} ${x.year? "• "+x.year:""} ${x.type? "• "+x.type:""}</span><span class="badge" style="background:${isD?"#fee2e2":"#FFF2CC"};color:${isD?"#c00":"#333"}">${label}</span><span>${x.mastered?"✅":isD?"🔴":""}</span></div>
+<div class="detail" id="d-${x.id}"><b>Note</b><div>${x.note||"—"}</div><div>${(x.pics||[]).map(p=>`<img class="thumb" src="${p}">`).join("")}</div>
+${showSched?`<div class="muted" style="margin-top:6px">${sched(x.base).map(s=>`Day ${s.day} • ${s.date}`).join(" | ")}</div>`:""}
+<div class="btns">${(x.next===todayStr()&&!x.mastered)?`<button class="ok" onclick="event.stopPropagation();mark('${x.id}','remember')">Remember ✓</button><button class="no" onclick="event.stopPropagation();mark('${x.id}','forgot')">Forgot ✗</button>`:""}</div></div>`;
+});}
+return h||`<div class="card">තවම කිසිවක් නැත.</div>`;
+}
+function mark(id,act){
+let x=items.find(i=>i.id===id);if(!x||x.next!==todayStr())return;
+if(act==="remember"){x.consec=0;x.difficult=false;if(x.stage>=4){x.mastered=true;}else{x.stage++;x.next=addDays(todayStr(),STAGES[x.stage]);}}
+else{x.consec=(x.consec||0)+1;if(x.consec>=2){x.difficult=true;x.next=addDays(todayStr(),1);}else{x.next=addDays(todayStr(),1);}}
+save();renderAll();
+}
+function renderAll(){
+let days=["ඉරිදා","සඳුදා","අඟහරුවාදා","බදාදා","බ්‍රහස්පතින්දා","සිකුරාදා","සෙනසුරාදා"];let months=["ජනවාරි","පෙබරවාරි","මාර්තු","අප්‍රේල්","මැයි","ජූනි","ජූලි","අගෝස්තු","සැප්තැම්බර්","ඔක්තෝබර්","නොවැම්බර්","දෙසැම්බර්"];
+let now=new Date();document.getElementById("dateLine").innerHTML="අද - "+months[now.getMonth()]+" "+now.getDate()+"<br>"+days[now.getDay()];
+let inst=new Date(meta.install+"T00:00:00");let diff=Math.max(0,7-Math.floor((now-inst)/86400000));
+document.getElementById("trialPill").textContent=meta.activation?("සක්‍රියයි • "+meta.activation.expiry):("Trial Version • තව දින "+diff+" ක් ඉතිරියි");
+let due=items.filter(x=>!x.mastered&&x.next<=todayStr());
+let labels=["අද","1","3","7","14","30","✓"];
+document.getElementById("strip").innerHTML=labels.map((l,i)=>`<div><div class="dot ${i===0?"on":i===6?"done":""}">${l}</div><div class="small">Day ${i===0?0:i===6?"✓":[1,3,7,14,30][i-1]}</div></div>`).join("");
+document.getElementById("cToday").textContent="අද සමාලෝචන: "+due.length;
+document.getElementById("cTotal").textContent="මුළු: "+items.length;
+document.getElementById("cMaster").textContent="Mastered: "+items.filter(x=>x.mastered).length;
+// nav
+let tabs=[["home","🏠"],["lessons","📖"],["papers","📝"],["settings","⚙️"]];
+
+document.getElementById("botnav").innerHTML=tabs.map(t=>`<button type="button" data-go="${t[0]}" class="navbtn ${page===t[0]?"on":""}" onclick="go('${t[0]}')">${t[1]}</button>`).join("");
+document.getElementById("tabToday").style.background=todayTab==="today"?"#1E7BFF":"#FFF2CC";document.getElementById("tabToday").style.color=todayTab==="today"?"#fff":"#000";
+document.getElementById("tabCal").style.background=todayTab==="cal"?"#1E7BFF":"#FFF2CC";document.getElementById("tabCal").style.color=todayTab==="cal"?"#fff":"#000";
+document.getElementById("todayList").classList.toggle("hidden",todayTab!=="today");document.getElementById("todayCal").classList.toggle("hidden",todayTab!=="cal");
+// today: difficult first
+let td=[...due].sort((a,b)=>(b.difficult-a.difficult)||(a.stage-b.stage));
+document.getElementById("todayList").innerHTML=td.length?groupHTML(td,false):"<div>අද සමාලෝචන නැත.</div>";
+// calendar
+let y=calMonth.getFullYear(),m=calMonth.getMonth();let first=new Date(y,m,1).getDay();let daysIn=new Date(y,m+1,0).getDate();let cells="";
+for(let i=0;i<first;i++)cells+="<div style='visibility:hidden'></div>";
+for(let d=1;d<=daysIn;d++){let ds=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");let has=items.some(x=>x.next===ds);cells+=`<div class="${ds===todayStr()?"today":""} ${has?"has":""}" onclick="selDate='${ds}';renderCalList()">${d}</div>`;}
+document.getElementById("todayCal").innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><button class="mini" onclick="calMonth=new Date(${y},${m-1},1);renderAll()">‹</button><b>${months[m]} ${y}</b><button class="mini" onclick="calMonth=new Date(${y},${m+1},1);renderAll()">›</button></div><div class="cal" style="margin-top:8px">${cells}</div><div id="calList" style="margin-top:10px"></div><p class="muted">Remember / Forgot බොත්තම් අද දිනට පමණයි.</p>`;
+renderCalList();
+document.getElementById("lessonsList").innerHTML=groupHTML(items.filter(x=>x.kind==="lesson"),true);
+document.getElementById("papersList").innerHTML=groupHTML(items.filter(x=>x.kind==="paper"),true);
+document.getElementById("schedPrev").textContent="සුරැකූ පසු: "+sched(todayStr()).map(s=>`Day ${s.day} • ${s.date}`).join(" | ");
+document.getElementById("kLesson").style.background=kind==="lesson"?"#1E7BFF":"#FFF2CC";document.getElementById("kLesson").style.color=kind==="lesson"?"#fff":"#000";
+document.getElementById("kPaper").style.background=kind==="paper"?"#EDBF5E":"#FFF2CC";
+if(document.getElementById("actInfo"))document.getElementById("actInfo").textContent=meta.activation?("සක්‍රියයි • "+meta.activation.expiry):("Trial ඉතිරි: "+diff+" දින • ස්ථාපනය: "+meta.install);
+// manage
+let q=(document.getElementById("search").value||"").toLowerCase();
+document.getElementById("manage").innerHTML=items.filter(x=>(x.subject+x.topic).toLowerCase().includes(q)).map(x=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee"><span style="font-size:13px"><b>${x.subject}</b> • ${x.topic}</span><span><button class="edit" onclick="editItem('${x.id}')">Edit</button> <button class="del" onclick="delItem('${x.id}')">Delete</button></span></div>`).join("")||"තවම කිසිවක් නැත.";
+}
+function renderCalList(){let el=document.getElementById("calList");if(!el)return;let list=items.filter(x=>x.next===selDate);el.innerHTML=`<b>${selDate} • ලැයිස්තුව</b>`+(list.length?groupHTML(list,false):"<div>මෙම දිනයේ සමාලෝචන නැත.</div>");}
+function saveItem(){
+let sub=document.getElementById("fSub").value.trim(),topic=document.getElementById("fTopic").value.trim(),sub2=document.getElementById("fSub2").value.trim();
+if(!sub||!topic){alert("විෂය සහ මාතෘකාව ඇතුළත් කරන්න");return;}
+let pics=[];let files=document.getElementById("fPics").files;
+let done=0;if(files.length===0)finish([]);else{for(let i=0;i<Math.min(3,files.length);i++){let r=new FileReader();r.onload=e=>{pics.push(e.target.result);done++;if(done===Math.min(3,files.length))finish(pics);};r.readAsDataURL(files[i]);}}
+function finish(pics){let it={id:"m"+Date.now(),kind:kind,subject:sub,topic:topic,subtopic:kind==="paper"?"":sub2,year:kind==="paper"?document.getElementById("fYear").value.trim():"",type:kind==="paper"?document.getElementById("fType").value:"",note:document.getElementById("fNote").value.trim(),pics:pics,base:todayStr(),next:addDays(todayStr(),1),stage:0,consec:0,difficult:false,mastered:false};items.push(it);save();document.getElementById("saveMsg").textContent="සුරැකුණා! පළමු සමාලෝචනය හෙට.";renderAll();go(kind==="paper"?"papers":"lessons");}
+}
+function editItem(id){let x=items.find(i=>i.id===id);let n=prompt("Note",x.note||"");if(n!==null){x.note=n;save();renderAll();}}
+function delItem(id){if(confirm("මෙය ඉවත් කරන්නද?")){items=items.filter(i=>i.id!==id);save();renderAll();}}
+function doBackup(){let data={app:"MEMORA",install:meta.install,activation:meta.activation,items:items};let b=new Blob([JSON.stringify(data)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="MEMORA-Backup.json";a.click();}
+function doRestore(){try{let d=JSON.parse(document.getElementById("restoreTxt").value);if(!d.items)throw 0;if(confirm("පැරණි දත්ත ඉවත් කර අලුත් දත්ත දමන්නද? Yes = ඉවත් කරයි, No = එකතු කරයි")){items=d.items;}else{items=items.concat(d.items);}save();renderAll();alert("Restore වුණා.");}catch(e){alert("වලංගු දත්ත නැත.");}}
+function activate(){let k=document.getElementById("keyIn").value.trim().toUpperCase();let m=k.match(/^RDK-(\d{4})-(\d{4})-(1M|6M|1Y)-(\d{4})$/);if(!m){document.getElementById("keyMsg").textContent="Key එක වැරදියි";return;}let p=parseInt(m[1]),mm=parseInt(m[2]);let exp=String((p*7+mm*13+29+4317)%10000).padStart(4,"0");if(exp!==m[4]){document.getElementById("keyMsg").textContent="Key එක වැරදියි";return;}let d=new Date();if(m[3]==="1M")d.setMonth(d.getMonth()+1);if(m[3]==="6M")d.setMonth(d.getMonth()+6);if(m[3]==="1Y")d.setFullYear(d.getFullYear()+1);meta.activation={key:k,expiry:todayStr(d),duration:m[3]};save();renderAll();document.getElementById("keyMsg").textContent="සක්‍රියයි!";}
+document.getElementById("fType").addEventListener("change",e=>{document.getElementById("fOther").classList.toggle("hidden",e.target.value!=="Other");});
+document.getElementById("fPics").addEventListener("change",e=>{document.getElementById("picPrev").textContent=e.target.files.length+" ඡායාරූප තෝරා ඇත (3ක් දක්වා)";});
+renderAll();
+</script>
+<script>
+// Fallback touch navigation - works even if main script has an error
+(function(){
+  function show(p){
+    try{
+      document.querySelectorAll('section').forEach(function(s){s.classList.add('hidden');});
+      var el=document.getElementById('p-'+p);
+      if(el) el.classList.remove('hidden');
+      window.scrollTo(0,0);
+    }catch(e){}
+  }
+  document.addEventListener('click', function(e){
+    var b=e.target.closest('[data-go]');
+    if(b){ e.preventDefault(); show(b.getAttribute('data-go')); }
+  }, true);
+  // Make sure inputs are focusable on tap
+  document.addEventListener('touchstart', function(e){
+    var b=e.target.closest('[data-go]');
+    if(b){ e.preventDefault(); show(b.getAttribute('data-go')); }
+  }, {passive:false});
+})();
+</script>
+</body></html>
